@@ -1,1 +1,15 @@
 /.vscode/
+
+# ignore run cpp in contests uri
+judges/uri/contests/*/run
+
+# ignore run cpp in questions uri
+judges/uri/questions/run
+
+# ignore run cpp in contests codeforces
+judges/codeforces/contests/*/run
+
+# ignore run cpp in questions codeforces
+judges/codeforces/questions/run
+
+run
