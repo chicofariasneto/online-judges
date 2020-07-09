@@ -1,46 +1,38 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-map < int, vector < int > > adj;
-vector < int > nodes;
-map < int, bool > visited;
-vector < int > aux;
-int longer = -1, node = 0;
-int n;
+using ll = long long;
+#define len(x) (ll)(x).size()
 
-void dfs(int i) {
+map < ll, vector < ll > > adj;
+vector < ll > nodes;
+map < ll, bool > visited;
+vector < ll > aux;
+ll longer = 0, node = 0;
+ll n;
+
+void dfs(ll i) {
     if (visited[i]) return;
     visited[i] = true;
     aux.push_back(i);
 
-    int pos = 0;
-    for (auto j : adj[i]) {
-        if (adj.find(j) == adj.end())
-            adj[i].erase(adj[i].begin() + pos);
-        else
-            dfs(j);
-        pos++;
-    }
+    for (auto j : adj[i])
+        dfs(j);
 }
 
 void path () {
     for (auto u : nodes) {
-        //cout << u << endl;
+        aux.clear();
+        visited.clear();
         dfs(u);
-
-        /*for (auto i : aux)
-            cout << i << " ";
-        cout << endl << endl;*/
-
-        //cout << aux.size() << endl;
         if (aux.size() > longer) {
             longer = aux.size();
             node = u;
         }
-        aux.clear();
-        visited.clear();
     }
-    cout << node << endl;
+    aux.clear();
+    visited.clear();
+
     dfs(node);
     for (auto i : aux)
         cout << i << " ";
@@ -49,32 +41,24 @@ void path () {
 
 void solve() {
     cin >> n;
-    
-    for (int i = 0; i < n; i++) {
-        int aux;
-        cin >> aux;
 
+    vector < ll > arr;
+    for (ll i = 0; i < n; i++) {
+        ll aux;
+        cin >> aux;
+        arr.push_back(aux);
+    }
+
+    for (auto aux : arr) {
         nodes.push_back(aux);
 
-        adj[aux].push_back(aux * 2);
-        if (aux % 3 == 0)
-            adj[aux].push_back(aux / 3);
+        if (find(arr.begin(), arr.end(), (aux * 2)) != arr.end())
+            adj[aux].push_back(aux * 2);
+        if (find(arr.begin(), arr.end(), (aux / 3)) != arr.end())
+            if (aux % 3 == 0)
+                adj[aux].push_back(aux / 3);
     }
-    //cout << nodes.size() << endl;
     path();
-
-    /*
-    for (auto i : lista)
-        cout << i << " ";
-    cout << endl << endl;
-    */
-    /*
-    for (auto i = adj.begin(); i != adj.end(); i++) {
-        cout << i->first << " -> ";
-        for (auto j : i->second)
-            cout << j << " ";
-        cout << endl;
-    }*/
 }
 
 int main () {
